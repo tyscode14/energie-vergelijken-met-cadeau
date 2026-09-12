@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Energieactie-checker: is dat welkomstcadeau echt wat waard?</title>
+<meta name="description" content="Open checklist voor welkomstacties bij energiecontracten. Zeven vragen over uw aanbod, en u weet wanneer u het geld krijgt, of u het kwijtraakt bij opzeggen, en wat het netto oplevert.">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<style>
+:root{
+  --paper:#FAF7F0;--paper-2:#F2ECE0;--surface:#FFFDF9;--card:#fff;
+  --ink:#151E18;--ink-2:#33412F;--muted:#6B7368;
+  --line:rgba(21,30,24,.13);--line-2:rgba(21,30,24,.24);
+  --green:#0E2A1F;--green-2:#17402F;--on-green:#EFEAE0;--on-green-mute:#AEC2B4;
+  --brass:#B0882C;--brass-2:#C9A227;--brass-soft:#E9DCB6;
+  --ok:#2F7D4F;--warn:#B3761F;--bad:#8A2B1B;
+  --r:14px;--w:940px;
+  --display:"Fraunces","Iowan Old Style",Georgia,serif;
+  --body:"Inter","Segoe UI",system-ui,Arial,sans-serif;
+  --mono:ui-monospace,"Cascadia Mono",Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root{
+  --paper:#0B140F;--paper-2:#111D16;--surface:#13201A;--card:#16261E;
+  --ink:#E9EFE9;--ink-2:#C6D2C6;--muted:#93A093;--line:rgba(233,239,233,.15);--line-2:rgba(233,239,233,.3);
+  --green:#081710;--brass:#D4AC46;--brass-2:#E3C263;--brass-soft:#3A3113;
+  --ok:#6FCB92;--warn:#E3B267;--bad:#FF9B85;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.wrap{width:min(100% - 2rem,var(--w));margin-inline:auto}
+h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.018em;line-height:1.12;margin:0;text-wrap:balance}
+h1{font-size:clamp(1.8rem,4vw,2.7rem);font-weight:500}
+h2{font-size:1.35rem;margin:2.2rem 0 .8rem}
+h3{font-family:var(--body);font-size:1rem;font-weight:650}
+p{margin:0 0 1rem;max-width:68ch}
+a{color:var(--brass)}
+header{background:linear-gradient(165deg,var(--green),var(--green-2));color:var(--on-green);padding:2.4rem 0 2.6rem}
+header h1{color:#FFFDF7}header h1 em{font-style:italic;font-weight:400;color:var(--brass-2)}
+header p{color:var(--on-green-mute);margin:.9rem 0 0}
+.badge{display:inline-flex;gap:.45rem;font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2);border:1px solid rgba(201,162,39,.45);border-radius:999px;padding:.25rem .7rem;margin-bottom:1rem}
+main{padding:0 0 3rem}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:1.5rem;box-shadow:0 26px 60px -34px rgba(14,42,31,.45);margin-top:-1.6rem;position:relative;z-index:2}
+.q{border-top:1px solid var(--line);padding:1rem 0}
+.q:first-of-type{border-top:0;padding-top:0}
+.q .lab{font-weight:650;font-size:.98rem;margin-bottom:.5rem;display:block}
+.q .why{font-size:.82rem;color:var(--muted);margin:.45rem 0 0;max-width:64ch}
+.seg{display:flex;gap:.4rem;flex-wrap:wrap}
+.seg button{font:inherit;font-size:.85rem;font-weight:560;padding:.45rem .9rem;border-radius:999px;border:1.5px solid var(--line-2);background:var(--card);color:var(--ink-2);cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--green);color:var(--on-green);border-color:var(--green);font-weight:620}
+.inp{display:flex;align-items:center;background:var(--card);border:1.5px solid var(--line-2);border-radius:9px;overflow:hidden;max-width:220px}
+.inp:focus-within{border-color:var(--brass);box-shadow:0 0 0 3px rgba(176,136,44,.17)}
+.inp input{flex:1;min-width:0;font:inherit;font-size:.96rem;padding:.55rem .75rem;border:0;background:transparent;color:var(--ink)}
+.inp input:focus{outline:none}
+.inp .p,.inp .u{padding:0 .75rem;color:var(--muted);font-size:.82rem;flex:none}
+.inp .p{padding:0 0 0 .75rem}
+.verdict{margin-top:1.6rem;padding-top:1.5rem;border-top:2px solid var(--line)}
+.score{display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
+.score output{font-family:var(--display);font-size:3rem;font-weight:600;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.score .of{color:var(--muted);font-size:1rem}
+.bar{height:10px;border-radius:5px;background:var(--paper-2);overflow:hidden;margin:.4rem 0 1.2rem}
+.bar i{display:block;height:100%;border-radius:5px;transition:width .3s ease}
+.findings{list-style:none;padding:0;margin:0;display:grid;gap:.6rem}
+.findings li{display:flex;gap:.7rem;align-items:flex-start;font-size:.94rem;background:var(--card);border:1px solid var(--line);border-left:3px solid var(--muted);border-radius:0 9px 9px 0;padding:.7rem .9rem}
+.findings li.ok{border-left-color:var(--ok)}
+.findings li.warn{border-left-color:var(--warn)}
+.findings li.bad{border-left-color:var(--bad)}
+.findings .ic{font-weight:700;flex:none;width:1.1rem;text-align:center}
+.findings li.ok .ic{color:var(--ok)}.findings li.warn .ic{color:var(--warn)}.findings li.bad .ic{color:var(--bad)}
+.findings b{display:block;margin-bottom:.15rem}
+.findings span.t{color:var(--ink-2)}
+.netto{background:var(--green);color:var(--on-green);border-radius:var(--r);padding:1.2rem 1.4rem;margin-top:1.4rem}
+.netto .k{font-family:var(--mono);font-size:.68rem;letter-spacing:.13em;text-transform:uppercase;color:var(--on-green-mute);display:block;margin-bottom:.3rem}
+.netto output{font-family:var(--display);font-size:2rem;font-weight:600;letter-spacing:-.03em;line-height:1;display:block}
+.netto p{margin:.5rem 0 0;font-size:.88rem;color:var(--on-green-mute);max-width:56ch}
+.rules{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:1.3rem 1.5rem;margin-top:1.6rem}
+.rules dt{font-weight:650;font-size:.95rem;margin-top:1rem}
+.rules dt:first-of-type{margin-top:0}
+.rules dd{margin:.3rem 0 0;font-size:.9rem;color:var(--ink-2)}
+.rules .when{font-family:var(--mono);font-size:.7rem;color:var(--brass);letter-spacing:.08em}
+footer{border-top:1px solid var(--line);padding:1.6rem 0;font-size:.85rem;color:var(--muted);margin-top:2.5rem}
+@media (max-width:560px){.panel{padding:1.1rem}.score output{font-size:2.4rem}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="badge">Open checklist &middot; MIT</span>
+    <h1>Is dat welkomstcadeau <em>echt</em> wat waard?</h1>
+    <p>Sinds 1 januari 2026 mag een energieleverancier geen fysiek cadeau meer geven &mdash; alleen nog geld. Maar de naam van de actie bepaalt wannéér u dat geld krijgt, en of u het kwijtraakt als u eerder vertrekt. Zeven vragen, en u weet waar u aan toe bent.</p>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+  <section class="panel">
+    <div class="q">
+      <span class="lab">1. Hoe noemt de leverancier de actie?</span>
+      <div class="seg" data-q="naam">
+        <button type="button" data-v="welkomstkorting" aria-pressed="true">Welkomstkorting</button>
+        <button type="button" data-v="cashback">Cashback</button>
+        <button type="button" data-v="loyaliteitsbonus">Loyaliteitsbonus</button>
+        <button type="button" data-v="cadeau">Een fysiek cadeau</button>
+      </div>
+      <p class="why">De naam is geen marketing maar een aanwijzing: sinds 1 juni 2023 mag alleen een bedrag dat u aan het begin krijgt &ldquo;welkomstkorting&rdquo; heten.</p>
+    </div>
+
+    <div class="q">
+      <span class="lab">2. Wanneer wordt het uitgekeerd?</span>
+      <div class="seg" data-q="wanneer">
+        <button type="button" data-v="begin" aria-pressed="true">Direct / bij de eerste termijnen</button>
+        <button type="button" data-v="wacht">Na 30 tot 90 dagen</button>
+        <button type="button" data-v="eind">Pas op de jaarafrekening</button>
+        <button type="button" data-v="onbekend">Staat er niet bij</button>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="lab">3. Zit er een minimale looptijd aan vast?</span>
+      <div class="seg" data-q="looptijd">
+        <button type="button" data-v="geen" aria-pressed="true">Nee</button>
+        <button type="button" data-v="1">1 jaar</button>
+        <button type="button" data-v="3">3 jaar</button>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="lab">4. Was u de afgelopen twaalf maanden klant bij deze leverancier?</span>
+      <div class="seg" data-q="klant">
+        <button type="button" data-v="nee" aria-pressed="true">Nee</button>
+        <button type="button" data-v="ja">Ja</button>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="lab">5. Staat de opzegvergoeding duidelijk in de voorwaarden?</span>
+      <div class="seg" data-q="opzeg">
+        <button type="button" data-v="ja" aria-pressed="true">Ja, met bedrag</button>
+        <button type="button" data-v="vaag">Wel genoemd, geen bedrag</button>
+        <button type="button" data-v="nee">Kan ik niet vinden</button>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="lab">6. Is de korting al verwerkt in de getoonde jaarprijs?</span>
+      <div class="seg" data-q="verwerkt">
+        <button type="button" data-v="nee" aria-pressed="true">Nee, komt er nog bij</button>
+        <button type="button" data-v="ja">Ja, zit er al in</button>
+        <button type="button" data-v="onbekend">Onduidelijk</button>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="lab">7. De bedragen</span>
+      <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.5rem">
+        <div>
+          <label for="waarde" style="font-size:.78rem;color:var(--muted);display:block;margin-bottom:.25rem">Waarde van de actie</label>
+          <div class="inp"><span class="p">&euro;</span><input id="waarde" type="text" inputmode="numeric" value="300"></div>
+        </div>
+        <div>
+          <label for="meer" style="font-size:.78rem;color:var(--muted);display:block;margin-bottom:.25rem">Per jaar duurder dan het goedkoopste</label>
+          <div class="inp"><span class="p">&euro;</span><input id="meer" type="text" inputmode="numeric" value="90"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="verdict">
+      <div class="score">
+        <output id="score">&mdash;</output><span class="of">van de 100</span>
+      </div>
+      <div class="bar"><i id="bar" style="width:0%;background:var(--muted)"></i></div>
+      <ul class="findings" id="findings"></ul>
+
+      <div class="netto">
+        <span class="k">Netto over de looptijd</span>
+        <output id="netto">&mdash;</output>
+        <p id="nettoTxt">De actiewaarde min het prijsverschil maal het aantal contractjaren.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="rules">
+    <h2 style="margin-top:0">De regels waarop dit is gebaseerd</h2>
+    <dl id="rules"></dl>
+    <p style="font-size:.84rem;color:var(--muted);margin:1.2rem 0 0" id="disc"></p>
+  </section>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    Gemaakt door <a href="https://energievergelijkenmetcadeau.nl/">energievergelijkenmetcadeau.nl</a> &middot;
+    MIT-licentie &middot;
+    <a href="https://github.com/tyscode14/energieactie-checker">Broncode en regels op GitHub</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  var $=function(s){return document.querySelector(s);};
+  var A={naam:'welkomstkorting',wanneer:'begin',looptijd:'geen',klant:'nee',opzeg:'ja',verwerkt:'nee'};
+  function num(v){return parseFloat(String(v||'0').replace(/\./g,'').replace(',','.'))||0;}
+  function eur(n){return '€ '+Math.round(Math.abs(n)).toLocaleString('nl-NL');}
+
+  document.querySelectorAll('.seg').forEach(function(seg){
+    seg.addEventListener('click',function(e){
+      var b=e.target.closest('button'); if(!b)return;
+      seg.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed','false');});
+      b.setAttribute('aria-pressed','true');
+      A[seg.dataset.q]=b.dataset.v; run();
+    });
+  });
+  ['#waarde','#meer'].forEach(function(s){
+    document.addEventListener('input',function(e){ if(e.target.matches(s)) run(); });
+  });
+
+  function run(){
+    var f=[], score=100;
+    function add(kind,title,text,penalty){ f.push({k:kind,t:title,x:text}); score-=(penalty||0); }
+
+    if(A.naam==='cadeau'){
+      add('bad','Dit mag sinds 1 januari 2026 niet meer',
+        'De Energiewet verbiedt fysieke cadeaus zoals televisies, tablets, spelcomputers en cadeaubonnen bij een energiecontract. Ziet u dit toch, lees de voorwaarden dan extra kritisch: mogelijk gaat het om een aanbod van een andere partij dan de leverancier, of om verouderde informatie.',35);
+    }else{
+      add('ok','Toegestane vorm','Sinds 1 januari 2026 mag een welkomstactie alleen nog geld zijn. Deze voldoet daaraan.',0);
+    }
+
+    if(A.naam==='welkomstkorting'&&(A.wanneer==='eind'||A.wanneer==='wacht')){
+      add('bad','De naam klopt niet met de uitbetaling',
+        'Een korting mag alleen "welkomstkorting" heten als u die aan het begin krijgt, uiterlijk verrekend bij de tweede termijnbetaling. Keert de leverancier pas later uit, dan hoort dit cashback of loyaliteitsbonus te heten. Dit is een signaal om de rest van de voorwaarden goed te lezen.',25);
+    }else if(A.naam==='welkomstkorting'&&A.wanneer==='begin'){
+      add('ok','Naam en uitbetaling kloppen','U krijgt het bedrag aan het begin, dus de benaming welkomstkorting is terecht en u heeft het geld snel binnen.',0);
+    }
+
+    if(A.naam==='loyaliteitsbonus'||A.wanneer==='eind'){
+      add('warn','U raakt dit kwijt bij tussentijds opzeggen',
+        'Een bedrag dat pas aan het eind van het contractjaar wordt uitgekeerd vervalt volledig als u eerder vertrekt. Dat maakt het een slechtere deal dan hetzelfde bedrag vooraf.',12);
+    }
+    if(A.wanneer==='onbekend'){
+      add('bad','Uitbetaalmoment ontbreekt',
+        'Als de voorwaarden niet zeggen wannéér u het geld krijgt, weet u ook niet of u het bij vertrek kwijtraakt. Vraag dit na voordat u tekent.',18);
+    }
+    if(A.wanneer==='wacht'){
+      add('warn','Wachtperiode','Cashback volgt meestal 30 tot 90 dagen na de start van de levering. Reken er niet op bij het afsluiten.',5);
+    }
+
+    if(A.looptijd==='3'){
+      add('warn','Gekoppeld aan drie jaar',
+        'Bij een driejarig contract wordt een korting vaak over de hele looptijd uitgesmeerd, waardoor het bedrag per jaar lager uitvalt dan bij een jaarcontract met dezelfde totale korting. En u zit drie jaar vast aan het tarief eronder.',10);
+    }else if(A.looptijd==='1'){
+      add('ok','Looptijd van een jaar','Overzichtelijk: u kunt na een jaar opnieuw vergelijken.',0);
+    }
+
+    if(A.klant==='ja'){
+      add('bad','U komt waarschijnlijk niet in aanmerking',
+        'Vrijwel elke actie geldt alleen voor nieuwe klanten en sluit u uit als u in de afgelopen twaalf maanden klant was bij deze leverancier. Controleer dit eerst, anders rekent u zich rijk.',30);
+    }
+
+    if(A.opzeg==='nee'){
+      add('bad','Opzegvergoeding niet te vinden',
+        'Sinds de Energiewet van 1 januari 2026 moeten die voorwaarden duidelijk in het contract staan. Kunt u ze niet vinden, vraag er dan expliciet naar.',20);
+    }else if(A.opzeg==='vaag'){
+      add('warn','Opzegvergoeding zonder bedrag','Genoemd maar niet becijferd. Vraag om het concrete bedrag voordat u tekent.',10);
+    }else{
+      add('ok','Opzegvergoeding is transparant','U kunt vooraf zien wat vertrek u kost.',0);
+    }
+
+    if(A.verwerkt==='ja'){
+      add('warn','Korting zit al in de jaarprijs',
+        'Tel de korting dan niet nog een keer apart mee. Dat is de meest gemaakte rekenfout bij het vergelijken van acties.',5);
+    }else if(A.verwerkt==='onbekend'){
+      add('warn','Onduidelijk of de korting al verwerkt is','Vraag na of de getoonde jaarprijs inclusief of exclusief de actie is.',8);
+    }
+
+    score=Math.max(0,Math.min(100,score));
+    $('#score').textContent=score;
+    var col = score>=75?'var(--ok)':score>=45?'var(--warn)':'var(--bad)';
+    $('#score').style.color=col;
+    $('#bar').style.width=score+'%'; $('#bar').style.background=col;
+
+    $('#findings').innerHTML=f.map(function(x){
+      var ic = x.k==='ok'?'✓':x.k==='warn'?'!':'✕';
+      return '<li class="'+x.k+'"><span class="ic">'+ic+'</span><span><b>'+x.t+'</b><span class="t">'+x.x+'</span></span></li>';
+    }).join('');
+
+    var jaren = A.looptijd==='3'?3:A.looptijd==='1'?1:1;
+    var netto = num($('#waarde').value)-num($('#meer').value)*jaren;
+    $('#netto').textContent=(netto<0?'− ':'+ ')+eur(netto);
+    $('#netto').style.color = netto>=0?'var(--brass-2)':'#FF9B85';
+    $('#nettoTxt').textContent = netto>=0
+      ? 'Over '+jaren+' jaar houdt u dit netto over. Het cadeau is meer waard dan wat u extra betaalt.'
+      : 'Deze actie kost u netto geld over '+jaren+' jaar. Een goedkoper contract zonder actie levert meer op.';
+  }
+
+  fetch('data/regels.json').then(function(r){return r.json();}).then(function(d){
+    $('#rules').innerHTML=d.regels.map(function(r){
+      var w = r.sinds ? '<span class="when">sinds '+r.sinds+'</span> ' : '';
+      return '<dt>'+w+r.kern+'</dt><dd>'+r.toelichting+(r.wat_mag_wel?' <b>Wat wel mag:</b> '+r.wat_mag_wel:'')+' <em style="color:var(--muted)">('+r.bron+')</em></dd>';
+    }).join('');
+    $('#disc').textContent=d.meta.disclaimer;
+  }).catch(function(){ $('#disc').textContent='Kon data/regels.json niet laden. Open deze pagina via een webserver.'; });
+
+  run();
+})();
+</script>
+</body>
+</html>

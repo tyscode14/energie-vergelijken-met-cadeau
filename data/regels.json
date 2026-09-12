@@ -1,0 +1,82 @@
+{
+ "meta": {
+  "title": "Regels rond welkomstacties bij energiecontracten in Nederland",
+  "publisher": "energievergelijkenmetcadeau.nl",
+  "licence": "MIT",
+  "samengesteld_op": "2026-09-12",
+  "disclaimer": "Samenvatting van publiek beschikbare regelgeving, geen juridisch advies. De actievoorwaarden van de leverancier zijn altijd leidend."
+ },
+ "regels": [
+  {
+   "id": "cadeauverbod",
+   "sinds": "2026-01-01",
+   "kern": "Energieleveranciers mogen geen fysieke cadeaus meer geven bij het afsluiten van een energiecontract.",
+   "toelichting": "Onder de Energiewet is het geven van tablets, televisies, spelcomputers of cadeaubonnen aan nieuwe klanten niet langer toegestaan. Aanleiding: consumenten vergeleken de waarde van het cadeau in plaats van de werkelijke contractprijs. De ACM houdt toezicht.",
+   "wat_mag_wel": "Uitsluitend geld: welkomstkorting, cashback of loyaliteitsbonus.",
+   "bron": "Energiewet, in werking 1 januari 2026; toezicht ACM"
+  },
+  {
+   "id": "naamgeving",
+   "sinds": "2023-06-01",
+   "kern": "De naam van de actie bepaalt wanneer u het geld krijgt.",
+   "toelichting": "Een korting mag alleen 'welkomstkorting' heten als de consument die aan het begin van het contract ontvangt, uiterlijk verrekend bij de tweede termijnbetaling. Keert de leverancier pas aan het einde uit, dan moet het 'loyaliteitsbonus' of 'cashback' heten. Leveranciers zijn verplicht dit correct te labelen.",
+   "wat_mag_wel": null,
+   "bron": "ACM-regels rond welkomstkorting en loyaliteitsbonus"
+  },
+  {
+   "id": "loyaliteitsbonus_vervalt",
+   "sinds": "2023-06-01",
+   "kern": "Een loyaliteitsbonus vervalt volledig bij tussentijds opzeggen.",
+   "toelichting": "U heeft er geen recht op als u het contract voortijdig beeindigt. Bij een welkomstkorting heeft u het geld al ontvangen. Dat maakt het verschil tussen de twee namen financieel, niet cosmetisch.",
+   "wat_mag_wel": null,
+   "bron": "ACM-regels rond welkomstkorting en loyaliteitsbonus"
+  },
+  {
+   "id": "bedenktijd",
+   "sinds": null,
+   "kern": "Veertien dagen bedenktijd bij online of telefonisch afsluiten.",
+   "toelichting": "U kunt zonder opgaaf van reden annuleren. De termijn gaat in op de dag nadat u de bevestiging heeft ontvangen. Annuleert u binnen die termijn, dan vervalt ook het recht op de actie.",
+   "wat_mag_wel": null,
+   "bron": "Wettelijke bedenktijd bij overeenkomsten op afstand"
+  },
+  {
+   "id": "opzegvergoeding",
+   "sinds": "2026-01-01",
+   "kern": "Een opzegvergoeding mag, maar de voorwaarden moeten duidelijk in het contract staan.",
+   "toelichting": "Bij een vast contract mag de leverancier een vergoeding rekenen als u voortijdig opzegt. Sinds de Energiewet moeten die voorwaarden helder zijn vastgelegd, zodat u vooraf kunt controleren wat vertrek u kost. Bij een driejarig contract ligt dat bedrag doorgaans hoger.",
+   "wat_mag_wel": null,
+   "bron": "Energiewet, in werking 1 januari 2026"
+  },
+  {
+   "id": "nieuwe_klant",
+   "sinds": null,
+   "kern": "Vrijwel elke actie geldt alleen voor nieuwe klanten.",
+   "toelichting": "Was u in de afgelopen twaalf maanden klant bij die leverancier, dan vervalt de actie meestal. Heen en weer wisselen tussen dezelfde twee leveranciers om steeds opnieuw cashback te pakken werkt daardoor niet.",
+   "wat_mag_wel": null,
+   "bron": "Gangbare actievoorwaarde, verschilt per leverancier"
+  }
+ ],
+ "marktcijfers_2026": {
+  "cashback_range_eur": [
+   0,
+   700
+  ],
+  "cashback_uitschieter_meerjarig_eur": 850,
+  "hoogste_augustus_2026": [
+   {
+    "leverancier": "ENGIE",
+    "cashback": 470
+   },
+   {
+    "leverancier": "Pure Energie",
+    "cashback": 460
+   },
+   {
+    "leverancier": "Vattenfall",
+    "cashback": 400
+   }
+  ],
+  "gecontroleerd_op": "2026-08-20",
+  "zekerheid": "indicatief, bedragen wijzigen wekelijks"
+ }
+}
