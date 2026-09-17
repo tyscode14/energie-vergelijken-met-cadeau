@@ -2,7 +2,7 @@
 
 Open checklist die beoordeelt of een **welkomstactie** bij een energiecontract u werkelijk iets oplevert. Zeven vragen, een score en een lijst met concrete bevindingen. Eén HTML-bestand, geen build, geen tracking, geen afhankelijkheden. Gemaakt door [energievergelijkenmetcadeau.nl](https://energievergelijkenmetcadeau.nl), MIT-licentie.
 
-**Gebruik de checker:** https://tyscode14.github.io/energieactie-checker/
+**Gebruik de checker:** https://tyscode14.github.io/energie-vergelijken-met-cadeau/
 
 ## Waarom deze tool bestaat
 
